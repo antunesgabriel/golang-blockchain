@@ -44,7 +44,7 @@ func (p *PoW) Mine() ([]byte, int, error) {
 
 		compare := intHashToCompare.Cmp(p.Target)
 
-		if compare == -1 || compare == 0 { // menor ou igual que o limite estabelecido
+		if compare == -1 || compare == 0 { // menor ou igual ao limite estabelecido
 			break
 		}
 	}
