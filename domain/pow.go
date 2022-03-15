@@ -26,15 +26,15 @@ func NewPoW(b *Block, dificulty int) *PoW {
 	return pow
 }
 
-func (p *PoW) Mine() ([]byte, int, error) {
+func (p *PoW) Mine() ([]byte, []byte, error) {
 	var hash []byte
 	var err error
-	var nonce int
+	var nonceByte []byte
 
 	dificultyByte, _ := helpers.IntToBytes(int(p.Dificulty))
 
-	for nonce = 0; nonce < math.MaxInt64; nonce++ {
-		nonceByte, _ := helpers.IntToBytes(nonce)
+	for nonce := 0; nonce < math.MaxInt64; nonce++ {
+		nonceByte, _ = helpers.IntToBytes(nonce)
 
 		if hash, err = p.Block.HashBlock(nonceByte, dificultyByte); err != nil {
 			break
@@ -49,5 +49,5 @@ func (p *PoW) Mine() ([]byte, int, error) {
 		}
 	}
 
-	return hash, nonce, err
+	return hash, nonceByte, err
 }

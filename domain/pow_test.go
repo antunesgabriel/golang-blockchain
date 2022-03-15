@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"encoding/binary"
 	"encoding/hex"
 	"reflect"
 	"strconv"
@@ -40,7 +41,7 @@ func TestPow(t *testing.T) {
 			block := NewBlock(fakeData, PREV_HASH)
 			pow := NewPoW(block, DIFICULTY)
 
-			hashByte, nonce, err := pow.Mine()
+			hashByte, nonceByte, err := pow.Mine()
 
 			if err != nil {
 				t.Errorf("[Failed NewPoW()]: Error: %s", err.Error())
@@ -52,7 +53,9 @@ func TestPow(t *testing.T) {
 				t.Errorf("[Failed pow.Mine()]: Expected Hash: %s --- Received %s", expectedHash, hash)
 			}
 
-			if nonce != expectedNonce {
+			nonce := binary.BigEndian.Uint64(nonceByte)
+
+			if int(nonce) != expectedNonce {
 				t.Errorf("[Failed pow.Mine()]: Expected Hash: %d --- Received %d", expectedNonce, nonce)
 			}
 		})
