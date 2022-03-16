@@ -41,8 +41,6 @@ func TestNewBlock(t *testing.T) {
 
 func TestHashBlock(t *testing.T) {
 	t.Run("i should returns block content hash", func(t *testing.T) {
-		expected := "a859f59f412eb42b495b945f8a5d0a158b3b7f314e9ba598cd41166a72d15154"
-
 		data := map[string]string{
 			"To":    "Mariana",
 			"From":  "Gabriel",
@@ -50,9 +48,8 @@ func TestHashBlock(t *testing.T) {
 		}
 
 		block := NewBlock(data, "0")
-		dificulty, _ := helpers.IntToBytes(14)
 		nonce, _ := helpers.IntToBytes(1)
-		hashBytes, err := block.HashBlock(nonce, dificulty)
+		hashBytes, err := block.HashBlock(nonce)
 
 		if err != nil {
 			t.Errorf("[Failed HashBlock()]: Received error: %s", err.Error())
@@ -60,8 +57,8 @@ func TestHashBlock(t *testing.T) {
 
 		result := hex.EncodeToString(hashBytes)
 
-		if result != expected {
-			t.Fatalf("[Failed block.HashBlock()]: Expected: %s --- Received: %s", expected, result)
+		if result == "" {
+			t.Fatalf("[Failed block.HashBlock()]: Expected: hash --- Received: %s", result)
 		}
 	})
 }
@@ -83,12 +80,10 @@ func BenchmarkHashBlock(b *testing.B) {
 	}
 	prevHash := "dsfdsf"
 
-	dificulty, _ := helpers.IntToBytes(14)
-
 	block := NewBlock(data, prevHash)
 
 	for i := 0; i < b.N; i++ {
 		nonce, _ := helpers.IntToBytes(i)
-		block.HashBlock(nonce, dificulty)
+		block.HashBlock(nonce)
 	}
 }

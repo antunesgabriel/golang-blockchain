@@ -31,12 +31,10 @@ func (p *PoW) Mine() ([]byte, []byte, error) {
 	var err error
 	var nonceByte []byte
 
-	dificultyByte, _ := helpers.IntToBytes(int(p.Dificulty))
-
 	for nonce := 0; nonce < math.MaxInt64; nonce++ {
 		nonceByte, _ = helpers.IntToBytes(nonce)
 
-		if hash, err = p.Block.HashBlock(nonceByte, dificultyByte); err != nil {
+		if hash, err = p.Block.HashBlock(nonceByte); err != nil {
 			break
 		}
 

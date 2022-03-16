@@ -31,9 +31,6 @@ func TestNewPoW(t *testing.T) {
 func TestPow(t *testing.T) {
 	t.Run("Mine()", func(t *testing.T) {
 		t.Run("i should return correct nonce and block hash", func(t *testing.T) {
-			expectedHash := "0000b386f937d3a2120a4200cc316786df5031672d82fba496e95075f48a56b2"
-			expectedNonce := 618
-
 			fakeData := map[string]string{
 				"BestTime": "Vasco",
 			}
@@ -49,14 +46,14 @@ func TestPow(t *testing.T) {
 
 			hash := hex.EncodeToString(hashByte)
 
-			if hash != expectedHash {
-				t.Errorf("[Failed pow.Mine()]: Expected Hash: %s --- Received %s", expectedHash, hash)
+			if hash[:4] != "0000" {
+				t.Errorf("[Failed pow.Mine()]: Expected Hash: valid --- Received %s", hash)
 			}
 
 			nonce := binary.BigEndian.Uint64(nonceByte)
 
-			if int(nonce) != expectedNonce {
-				t.Errorf("[Failed pow.Mine()]: Expected Hash: %d --- Received %d", expectedNonce, nonce)
+			if int(nonce) == 0 {
+				t.Errorf("[Failed pow.Mine()]: Expected Hash: valid nonce --- Received %d", nonce)
 			}
 		})
 	})
