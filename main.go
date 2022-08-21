@@ -1,6 +1,9 @@
 package main
 
 import (
+	"encoding/json"
+	"log"
+
 	"github.com/antunesgabriel/golang-blockchain/domain"
 )
 
@@ -27,4 +30,7 @@ func main() {
 
 	blockchain.AddBlock(block)
 
+	j, _ := json.Marshal(block)
+
+	log.Printf("Block Minerado %s", j)
 }
